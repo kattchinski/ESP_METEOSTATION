@@ -9,8 +9,8 @@
 
 
 // ======= WiFi =======
-const char* ssid = "V3";
-const char* password = "SjG3pm7u89RX";
+const char* ssid = "selfish";
+const char* password = "0631111618";
 WebServer server(80);
 
 
@@ -25,7 +25,7 @@ Adafruit_BME280 bme;
 LiquidCrystal_I2C* lcd = nullptr;
 
 // Назви днів (залишаю для сумісності з твоєю структурою, але RTC не використовується)
-const char* WeekDays[] = {"Mon","Tue","Wed","Thu","Fri","Sat","Sun"};
+//const char* WeekDays[] = {"Mon","Tue","Wed","Thu","Fri","Sat","Sun"};
 
 
 // ======= JSON handler for Web =======
@@ -188,18 +188,41 @@ void setup() {
     Serial.println("BME280 not found at 0x76. Trying 0x77...");
     if (!bme.begin(0x77)) {
       Serial.println("No BME280 at 0x76/0x77.");
-      while (1) delay(100);
+      //while (1) delay(100);
     }
   }
 
   fillPressureBufferOnce();   // заповнимо масив стартовими значеннями
   ShowScreen(screenIndex);    // намалюємо перший екран
   // WiFi
+  Serial.print("Connecting to WiFi:");
+  Serial.println(ssid);
   WiFi.begin(ssid, password);
+
+  //wait 15s for connection
+  int waitTime = 0;
+  while (WiFi.status() != WL_CONNECTED && waitTime < 15)
+  {
+    delay(1000);
+    Serial.print(".");
+    waitTime++;
+  }
+
+  Serial.println();
+  if(WiFi.status() == WL_CONNECTED)
+  {
+    Serial.println("WiFi connected");
+    Serial.println("IP CONNECTED:");
+    Serial.println(WiFi.localIP());
+  }
+  else{
+    Serial.println("Connection failed...");
+  }
   // Web server
   server.on("/", []() { server.send_P(200, "text/html", MAIN_page); });
   server.on("/data.json", handleData);
   server.begin();
+
 }
 
 void loop() {
