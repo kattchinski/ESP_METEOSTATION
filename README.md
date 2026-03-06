@@ -15,6 +15,9 @@ D25
 monitor_speed = 115200
 
 adafruit/Adafruit BME280 Library@^2.3.0
+
 adafruit/Adafruit Unified Sensor@^1.1.15
+
 marcoschwartz/LiquidCrystal_I2C@^1.1.4
+
 mobizt/Firebase Arduino Client Library for ESP8266 and ESP32@^4.4.17
