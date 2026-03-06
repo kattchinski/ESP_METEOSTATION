@@ -7,15 +7,17 @@
 #include <WebServer.h>
 #include "addons/TokenHelper.h"
 #include "web.h"
+#include "secrets.h"
 
-// --- НАЛАШТУВАННЯ ---
-#define WIFI_SSID     "V3"
-#define WIFI_PASS     "SjG3pm7u89RX"
-#define API_KEY       "AIzaSyC9ti9KEQXXdUs6rhc1io68BPIxwYBR3Sc"
-#define DATABASE_URL  "https://meteoespenitration-default-rtdb.europe-west1.firebasedatabase.app/"
-#define USER_EMAIL    "esp32@gmail.com"
-#define USER_PASSWORD "123456"
+// --- Configs ---
+#define WIFI_SSID     WIFI_SSID_SECRET
+#define WIFI_PASS     WIFI_PASS_SECRET
+#define API_KEY       API_KEY_SECRET
+#define DATABASE_URL  DATABASE_URL_SECRET
+#define USER_EMAIL    USER_EMAIL_SECRET
+#define USER_PASSWORD USER_PASSWORD_SECRET
 
+// I2C
 #define I2C_SDA 21
 #define I2C_SCL 22
 const int touchBtn = 25; 
@@ -38,8 +40,7 @@ bool lastTouchState = false;
 float pressureStat[9];
 float resultStat = 0;
 
-// --- ФУНКЦІЇ ДЕБАГУ ТА ЛОГІКИ ---
-
+// --- DEBUG FUNCTIONS ---
 void handleData() {
   Serial.println("[WEB] Request received: /data.json");
   float t = bme.readTemperature();
